@@ -1,6 +1,5 @@
 const cellElements = document.querySelectorAll("[data-cell]");
-const jogada = document.querySelector("jogada");
-let turno;
+const jogada = document.querySelector(".turno");
 
 let isCircleTurn = false;
 
@@ -50,20 +49,28 @@ const placeMark = (cell, classToAdd) => {
 const swapTurns = () => {
   // troca de turno
   isCircleTurn = !isCircleTurn; //inverte o turno
+
+  let jogador;
+    if (isCircleTurn == true) {
+        jogador = "O";
+    } else {
+        jogador = "X";
+    }
+
+    jogada.innerHTML = "<h3> Jogador da vez: " + jogador + "</h3>";
 };
 
 const handleClick = (e) => {
   // vê de quem é a vez
   const cell = e.target;
+  console.log("handle: " + isCircleTurn);
   const classToAdd = isCircleTurn ? "O" : "X";
-  
 
   placeMark(cell, classToAdd);
 
   const isWin = checkForWin(classToAdd);
 
   const isDraw = checkForDraw();
-  console.log(isCircleTurn);
 
   if (isWin) {
     endGame(false);
