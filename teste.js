@@ -1,5 +1,4 @@
 const cellElements = document.querySelectorAll("[data-cell]");
-const jogada = document.querySelector(".turno");
 
 let isCircleTurn = true;
 
@@ -18,12 +17,10 @@ const endGame = (isDraw) => {
   if (isDraw) {
     setTimeout(() => window.location = "./empatou.html", 400);
   } else {
-    const winner = isCircleTurn ? "O" : "X";
-    console.log(`venceu ${winner}`);
-    if(winner == "X") {
-      setTimeout(() => window.location = "./xvenceu.html", 400);
-    } else {
+    if (isCircleTurn) {
       setTimeout(() => window.location = "./ovenceu.html", 400);
+    } else {
+      setTimeout(() => window.location = "./xvenceu.html", 400);
     }
   }
 };
@@ -55,7 +52,7 @@ const bot = () => {
   const randomIndex = Math.floor(Math.random() * emptyCells.length);
   const cell = emptyCells[randomIndex];
   placeMark(cell, "X");
-
+  
   const isWin = checkForWin("X");
   const isDraw = checkForDraw();
 
@@ -63,22 +60,15 @@ const bot = () => {
     endGame(false);
   } else if (isDraw) {
     endGame(true);
-  } else {
-    swapTurns();
   }
-};
-
-const swapTurns = () => {
-  isCircleTurn = !isCircleTurn;
-  const jogador = isCircleTurn ? "O" : "X";
-  jogada.innerHTML = "<h3> Jogador da vez: " + jogador + "</h3>";
-};
+}
 
 const handleClick = (e) => {
   const cell = e.target;
   const classToAdd = isCircleTurn ? "O" : "X";
-
+  
   placeMark(cell, classToAdd);
+  
   const isWin = checkForWin(classToAdd);
   const isDraw = checkForDraw();
 
@@ -87,11 +77,6 @@ const handleClick = (e) => {
   } else if (isDraw) {
     endGame(true);
   } else {
-    swapTurns();
-    setTimeout(() => bot(), 500);
-  }
-};
-
-for (const cell of cellElements) {
-  cell.addEventListener("click", handleClick, { once: true });
-}
+    isCircleTurn = !isCircleTurn;
+    if (!isCircleTurn) {
+     
