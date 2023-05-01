@@ -1,7 +1,7 @@
 const cellElements = document.querySelectorAll("[data-cell]");
 const jogada = document.querySelector(".turno");
 
-let isCircleTurn = false;
+let isCircleTurn = true;
 
 const winningCombinations = [
   [0, 1, 2],
@@ -18,10 +18,13 @@ const endGame = (isDraw) => {
   if (isDraw) {
     window.location = "./empatou.html";
   } else {
+    console.log("is circle: " + isCircleTurn);
     if (isCircleTurn == true) {
-        window.location = "./ovenceu.html";
-    } else {
-        window.location = "./xvenceu.html";
+      console.log("entrou aqui O");
+      setTimeout(() => window.location = "./ovenceu.html", 500);
+    } else if (isCircleTurn == false) {
+      console.log("entrou aqui X");
+      setTimeout(() => window.location = "./xvenceu.html", 500);
     }
   }
 };
@@ -46,31 +49,46 @@ const placeMark = (cell, classToAdd) => {
   cell.classList.add(classToAdd);
 };
 
+const bot = () => {
+  const emptyCells = [...cellElements].filter((cell) => {
+    return !cell.classList.contains("X") && !cell.classList.contains("O");
+  });
+
+  const randomIndex = Math.floor(Math.random() * emptyCells.length);
+  const cell = emptyCells[randomIndex];
+  placeMark(cell, "X");
+  
+}
+
 const swapTurns = () => {
   // troca de turno
-  isCircleTurn = !isCircleTurn; //inverte o turno
 
-  let jogador;
-    if (isCircleTurn == true) {
-        jogador = "O";
-    } else {
-        jogador = "X";
+    
+    const isDraw = checkForDraw();
+
+    if (isWin) {
+      endGame(false);
+    } else if (isDraw) {
+      endGame(true);
     }
+    // fim da jogada do computador
 
-    jogada.innerHTML = "<h3> Jogador da vez: " + jogador + "</h3>";
+  // jogada.innerHTML = "<h3> Jogador da vez: " + jogador + "</h3>";
 };
 
 const handleClick = (e) => {
   // vê de quem é a vez
   const cell = e.target;
-  console.log("handle: " + isCircleTurn);
   const classToAdd = isCircleTurn ? "O" : "X";
+  
+  setTimeout(() => bot(), 500);
+  
+  const isDraw = checkForDraw();
 
   placeMark(cell, classToAdd);
-
   const isWin = checkForWin(classToAdd);
 
-  const isDraw = checkForDraw();
+  
 
   if (isWin) {
     endGame(false);
