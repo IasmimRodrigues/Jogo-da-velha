@@ -1,5 +1,5 @@
 const cellElements = document.querySelectorAll("[data-cell]");
-const jogada = document.querySelector(".turno");
+//const jogada = document.querySelector(".turno");
 
 let isCircleTurn = true;
 
@@ -16,15 +16,15 @@ const winningCombinations = [
 
 const endGame = (isDraw) => {
   if (isDraw) {
-    window.location = "./empatou.html";
+    // console.log("empatou");
+    setTimeout(() => window.location = "./empatou.html", 400);
   } else {
-    console.log("is circle: " + isCircleTurn);
     if (isCircleTurn == true) {
-      console.log("entrou aqui O");
-      setTimeout(() => window.location = "./ovenceu.html", 500);
+      // console.log("venceu O");
+      setTimeout(() => window.location = "./ovenceu.html", 400);
     } else if (isCircleTurn == false) {
-      console.log("entrou aqui X");
-      setTimeout(() => window.location = "./xvenceu.html", 500);
+      // console.log("venceu X");
+      setTimeout(() => window.location = "./xvenceu.html", 400);
     }
   }
 };
@@ -33,6 +33,14 @@ const checkForWin = (currentPlayer) => {
   return winningCombinations.some((combination) => {
     return combination.every((index) => {
       return cellElements[index].classList.contains(currentPlayer);
+    });
+  });
+};
+
+const checkForX = (classToAdd) => {
+  return winningCombinations.some((combination) => {
+    return combination.every((index) => {
+      return cellElements[index].classList.contains("X");
     });
   });
 };
@@ -57,45 +65,39 @@ const bot = () => {
   const randomIndex = Math.floor(Math.random() * emptyCells.length);
   const cell = emptyCells[randomIndex];
   placeMark(cell, "X");
-  
+
+
 }
 
-const swapTurns = () => {
-  // troca de turno
-
-    
+/*const swapTurns = () => {
     const isDraw = checkForDraw();
 
-    if (isWin) {
-      endGame(false);
-    } else if (isDraw) {
-      endGame(true);
-    }
+    // if (isWin) {
+    //   endGame(false);
+    // } else if (isDraw) {
+    //   endGame(true);
+    // }
     // fim da jogada do computador
 
   // jogada.innerHTML = "<h3> Jogador da vez: " + jogador + "</h3>";
-};
+};*/
 
 const handleClick = (e) => {
   // vê de quem é a vez
   const cell = e.target;
   const classToAdd = isCircleTurn ? "O" : "X";
-  
+
   setTimeout(() => bot(), 500);
-  
-  const isDraw = checkForDraw();
 
   placeMark(cell, classToAdd);
   const isWin = checkForWin(classToAdd);
+  const isDraw = checkForDraw();
+  const isWinX = checkForX(classToAdd);
 
-  
-
-  if (isWin) {
+  if (isWin || isWinX) {
     endGame(false);
   } else if (isDraw) {
     endGame(true);
-  } else {
-    swapTurns();
   }
 };
 

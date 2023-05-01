@@ -7,26 +7,52 @@ body {
     font-family: 'Quicksand', sans-serif;
 }
 
+.content {
+    height: 100%;
+    background: linear-gradient(to right top, #15074e, #410f6d, #6e1589, #9f18a3, #d316b9);
+}
+
+.content h1 {
+    display: flex;
+    justify-content: center;
+    padding-top: 60px;
+    font-weight: 800;
+    font-size: 40px;
+    color: #fff;
+}
+
 .board {
     display: grid;
-    width: 40%;
+    width: 340px;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    margin: 150px auto;
+    margin: 90px auto;
 }
 
 .board .cell {
     width: 100px;
     height: 100px;
-    background: violet;
+    background: #F9C8F2;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
+    font-size: 35px;
     font-weight: 700;
+    box-shadow: 0px 10px 25px rgba(234, 52, 209, 15%);
+    color: #15074E;
 }
 
 .board .cell h2 {
     color: red;
+}
+
+.content .turno {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 40px;
+}
+
+.content .turno h3 {
+    color: #F5A3EA;
 }
